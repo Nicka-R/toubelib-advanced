@@ -11,7 +11,7 @@ Projet de gestion des rendez-vous médicaux pour les patients et les médecins.
 3. Lancer les containers docker
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Collaborateurs
