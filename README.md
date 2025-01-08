@@ -14,6 +14,12 @@ Projet de gestion des rendez-vous médicaux pour les patients et les médecins.
 docker compose up -d
 ```
 
+4. Installer les dépendances
+
+```bash
+docker exec -it toubeelib-api.toubeelib-1 composer install
+```
+
 ### Collaborateurs
 
 Odin ALEXANDRE  
