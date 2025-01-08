@@ -16,6 +16,6 @@ docker compose up -d
 
 ### Collaborateurs
 
-Odin ALEXANDRE
-Victor GEORGES
+Odin ALEXANDRE  
+Victor GEORGES  
 Nicka RATOVOBODO
