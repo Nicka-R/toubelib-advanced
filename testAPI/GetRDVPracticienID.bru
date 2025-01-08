@@ -1,0 +1,22 @@
+meta {
+  name: GetRDVPracticienID
+  type: http
+  seq: 8
+}
+
+get {
+  url: http://localhost:6080/rdvs/practicien/edf9c95a-d9a9-4c47-a349-2eeb5f39d7e9
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZWQ5NDI1NS04ZGQzLTM3OGUtODdiNS1hMWNkMmQzNmViMDgiLCJyb2xlIjowLCJlbWFpbCI6ImptYXJpbkByaXZpZXJlLmNvbSIsImV4cCI6MTcyOTUzNTQ1NH0.pQmx0wj7JM_y6qQjg7H_9LWIXuMwUWtUC2MPreV1ZGan9LdGyJ9wD2qAoxWD1VPoXRyiiRVk_vz0F2hh2eYkTg
+}
+
+body:json {
+  {
+    "dateDebut": "2027-10-10T09:00:00",
+    "nbJours": 500
+  }
+}

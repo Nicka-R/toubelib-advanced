@@ -1,0 +1,21 @@
+meta {
+  name: ModifierRDV
+  type: http
+  seq: 3
+}
+
+patch {
+  url: http://localhost:6080/rdvs/524c0380-eec4-421a-91b7-d187c1e69154/modifier
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZWQ5NDI1NS04ZGQzLTM3OGUtODdiNS1hMWNkMmQzNmViMDgiLCJyb2xlIjowLCJlbWFpbCI6ImptYXJpbkByaXZpZXJlLmNvbSIsImV4cCI6MTcyOTUzOTU2M30.dm9HRAsPeJsIsDsVYtZqon0b4GKGPljli0zX0aCYAnoJADDRiVQ50-qlIvPi4d6E00FPZHy7rq9ffwIJFcR6zQ
+}
+
+body:json {
+  {
+    "patient": "0ba4b1f9-e22e-4a0c-8ed7-4305ea0889b9"
+  }
+}

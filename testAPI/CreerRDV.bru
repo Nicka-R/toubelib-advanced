@@ -1,0 +1,29 @@
+meta {
+  name: CreerRDV
+  type: http
+  seq: 6
+}
+
+post {
+  url: http://localhost:6080/rdvs/new
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZWQ5NDI1NS04ZGQzLTM3OGUtODdiNS1hMWNkMmQzNmViMDgiLCJyb2xlIjowLCJlbWFpbCI6ImptYXJpbkByaXZpZXJlLmNvbSIsImV4cCI6MTcyOTUzNTQ1NH0.pQmx0wj7JM_y6qQjg7H_9LWIXuMwUWtUC2MPreV1ZGan9LdGyJ9wD2qAoxWD1VPoXRyiiRVk_vz0F2hh2eYkTg
+}
+
+body:json {
+  {
+    "practicien_id": "edf9c95a-d9a9-4c47-a349-2eeb5f39d7e9",
+    "patient_id": "0ba4b1f9-e22e-4a0c-8ed7-4305ea0889b9",
+    "specialite_id": "904e4eb9-5a4e-424d-b239-bf64118c8837",
+    "date": "2027-11-10T09:00:00",
+    "newPatient": true,
+    "type": false,
+    "isConfirmed": false,
+    "isPaid": false
+  }
+  
+}
