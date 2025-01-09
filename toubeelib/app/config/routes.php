@@ -10,6 +10,7 @@ use toubeelib\application\actions\HomeAction;
 use toubeelib\application\actions\RDVbyIDAction;
 use toubeelib\application\actions\ModifierRDVAction;
 use toubeelib\application\actions\PraticienbyIDAction;
+use toubeelib\application\actions\ListPraticiensAction;
 use toubeelib\application\actions\CreerRDVAction;
 use toubeelib\application\actions\AuthAction;
 use toubeelib\application\actions\RDVbyPatientIDAction;
@@ -33,6 +34,7 @@ return function(App $app): App {
     $app->get('/rdvs/practicien/{id}', RDVbyPracticienIDAction::class)->setName('rdvByPracticienId');
 
     // Practiciens
+    $app->get('/praticiens', ListPraticiensAction::class)->setName('praticienById');
     $app->get('/praticiens/{id}', PraticienbyIDAction::class)->setName('praticienById');
     // ->add(CheckJwtToken::class);
 
