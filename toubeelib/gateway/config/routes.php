@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use gateway\middlewares\auth\CheckJwtToken;
 use gateway\middlewares\auth\AuthrzPraticienMiddleware;
 use toubeelib\application\actions\HomeAction;
-use toubeelib\application\actions\GatewayListPraticiensAction;
+use toubeelib\application\actions\GatewayPraticienAction;
 use gateway\middlewares\cors\Cors;
 
 return function(App $app): App {
@@ -16,7 +16,7 @@ return function(App $app): App {
     $app->get('/', HomeAction::class)->setName('home');
 
     // Praticiens
-    $app->get('/praticiens', GatewayListPraticiensAction::class)->setName('listPraticiens');
+    $app->get('/praticiens[/{id}]', GatewayPraticienAction::class)->setName('praticiens');
 
                                                             
     $app->options('/{routes:.+}', function (Request $request, Response $response) {
