@@ -15,10 +15,8 @@ use toubeelib\application\actions\CreerRDVAction;
 use toubeelib\application\actions\AuthAction;
 use toubeelib\application\actions\RDVbyPatientIDAction;
 use toubeelib\application\actions\RDVbyPracticienIDAction;
-use app\middlewares\cors\Cors;
 
 return function(App $app): App {
-    $app->add(Cors::class);
 
     // Public routes
     $app->get('/', HomeAction::class)->setName('home');
