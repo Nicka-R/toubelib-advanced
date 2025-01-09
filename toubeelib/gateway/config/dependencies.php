@@ -4,7 +4,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use Slim\App;
-use GruzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Client;
 
 return [
 
@@ -16,10 +17,10 @@ return [
         return $logger;
     },    
 
-    Client::class => function (ContainerInterface $container) {
+    ClientInterface::class => function () {
         return new Client([
-            'base_uri' => 'http://localhost:6080',
-            'timeout'  => 2.0,
+            'base_uri' => 'http://host.docker.internal:6080/',
+            'timeout'  => 1000.0,
         ]);
     },
 
