@@ -29,11 +29,12 @@ return function(App $app): App {
     $app->get('/rdvs/{id}', RDVbyIDAction::class)->setName('rdvById');
     $app->patch('/rdvs/{id}/modifier', ModifierRDVAction::class)->setName('modifierRDV');
     $app->get('/rdvs/patient/{id}', RDVbyPatientIDAction::class)->setName('rdvByPatientId');
-    $app->get('/rdvs/practicien/{id}', RDVbyPracticienIDAction::class)->setName('rdvByPracticienId');
 
     // Practiciens
     $app->get('/praticiens', ListPraticiensAction::class)->setName('praticienById');
     $app->get('/praticiens/{id}', PraticienbyIDAction::class)->setName('praticienById');
+    
+    $app->get('/praticiens/{id}/rdvs', RDVbyPracticienIDAction::class)->setName('rdvByPracticienId');
     // ->add(CheckJwtToken::class);
 
                                                             
