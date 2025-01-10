@@ -16,7 +16,7 @@ return function(App $app): App {
     $app->get('/', HomeAction::class)->setName('home');
 
     // Praticiens
-    $app->get('/praticiens[/{id}]', GatewayPraticienAction::class)->setName('praticiens');
+    $app->get('/praticiens[/{id}[/{rdvs}]]', GatewayPraticienAction::class)->setName('praticiens');
 
                                                             
     $app->options('/{routes:.+}', function (Request $request, Response $response) {

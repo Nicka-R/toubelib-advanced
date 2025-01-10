@@ -16,10 +16,20 @@ class GatewayPraticienAction extends AbstractAction
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface {
         $id = $args['id'] ?? null;
+        $rdv = false;
+        //si y a /rdvs à la fin de l'url
+        if (strpos($rq->getUri()->getPath(), '/rdvs') !== false) {
+            $rdv = true;
+        }
 
         try {
             if ($id) {
-                $response = $this->remote_praticien_service->get("praticiens/{$id}");
+                if($rdv) {
+                    $response = $this->remote_praticien_service->get("praticiens/{$id}/rdvs");
+
+                }else{
+                    $response = $this->remote_praticien_service->get("praticiens/{$id}");
+                }
             } else {
                 $response = $this->remote_praticien_service->get('praticiens');
             }
@@ -27,10 +37,19 @@ class GatewayPraticienAction extends AbstractAction
             $rs->getBody()->write($response->getBody()->getContents());
             return $rs->withStatus($response->getStatusCode());
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            if ($e->getResponse()->getStatusCode() === 404) {
+            //gestion des erreurs
+            $statusCode = $e->getResponse()->getStatusCode();
+            if ($statusCode === 400) {
+                $errorBody = $e->getResponse()->getBody()->getContents();
+                $errorData = json_decode($errorBody, true);
+                $errorMessage = $errorData['error'] ?? 'Bad Request';
+                $rs->getBody()->write(json_encode(['error' => $errorMessage]));
+                return $rs->withStatus(400)->withHeader('Content-Type', 'application/json');
+            } elseif ($statusCode === 404) {
                 throw new HttpNotFoundException($rq, 'Praticien not found');
+            } else {
+                throw $e;
             }
-            throw $e;
         }
     }
 }
