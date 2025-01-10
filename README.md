@@ -18,6 +18,7 @@ docker compose up -d
 
 ```bash
 docker exec -it toubeelib-api.toubeelib-1 composer install
+docker exec -it toubeelib-gateway.toubeelib-1 composer install
 ```
 
 ### Collaborateurs
