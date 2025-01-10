@@ -16,7 +16,6 @@ use toubeelib\core\services\auth\AuthServiceInterface;
 use app\providers\auth\JwtAuthProvider;
 use toubeelib\infrastructure\PDO\PdoUserRepository;
 use toubeelib\infrastructure\PDO\PdoRDVRepository;
-use app\middlewares\cors\Cors;
 use app\middlewares\auth\CheckJwtToken;
 use Slim\App;
 
@@ -91,11 +90,6 @@ return [
     JwtAuthProvider::class => function (ContainerInterface $container) {
         $authService = $container->get(AuthService::class);
         return new JwtAuthProvider($authService, $container->get(UserRepositoryInterface::class));
-    },
-    
-    // enregistrement du middleware CORS
-    Cors::class => function (ContainerInterface $container) {
-        return new Cors();
     },
 
     CheckJwtToken::class => function (ContainerInterface $container) {

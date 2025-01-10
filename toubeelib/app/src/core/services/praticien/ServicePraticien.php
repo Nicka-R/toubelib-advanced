@@ -79,6 +79,20 @@ class ServicePraticien implements ServicePraticienInterface
             throw new ServicePraticienInvalidDataException('Invalid Praticien ID');
         }
     }
+
+    /**
+     * fonction qui permet de récupérer tous les praticiens
+     * @return array les praticiens
+     */
+    public function getAllPraticiens(): array
+    {
+        $praticiens = $this->praticienRepository->getAllPraticiens();
+        $praticiensDTO = [];
+        foreach ($praticiens as $praticien) {
+            $praticiensDTO[] = new PraticienDTO($praticien);
+        }
+        return $praticiensDTO;
+    }
     
     
     

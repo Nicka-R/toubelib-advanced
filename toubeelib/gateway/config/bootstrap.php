@@ -2,8 +2,8 @@
 
 use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
-use app\middlewares\cors\Cors;
-use app\middlewares\cors\AddHeaders;
+use gateway\middlewares\cors\Cors;
+use gateway\middlewares\cors\AddHeaders;
 
 
 
@@ -25,5 +25,10 @@ $app->addErrorMiddleware($c->get('displayErrorDetails'), false, false)
 
 $app = (require_once __DIR__ . '/routes.php')($app);
 $routeParser = $app->getRouteCollector()->getRouteParser();
+
+//ajout du middleware Cors
+$app->add(new Cors());
+$app->add(new AddHeaders());
+
 
 return $app;
