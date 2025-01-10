@@ -14,7 +14,7 @@ services:
     ports:
       - '6080:80'
     volumes:
-      - ./app:/var/php
+      - ./toubeelib/app:/var/php
     working_dir: /var/php
     networks:
       - toubeelib.net
@@ -31,7 +31,7 @@ services:
     networks:
       - toubeelib.net
     volumes:
-      - ./app/sql:/var/sql'
+      - ./toubeelib/app/sql:/docker-entrypoint-initdb.d
   #
   # service administration des bases sql
   #
@@ -54,7 +54,27 @@ services:
     ports:
       - '6081:80'
     volumes:
-      - ./gateway:/var/php
+      - ./toubeelib/gateway:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - toubeelib.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
+
+
+  ############################################
+  #    service php pour app-praticiens
+  ############################################
+  api.praticiens:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '6082:80'
+    volumes:
+      - ./app-praticiens/gateway:/var/php
     working_dir: /var/php
     networks:
       - toubeelib.net

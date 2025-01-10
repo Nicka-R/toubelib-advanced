@@ -20,9 +20,9 @@ CREATE TABLE praticien (
     FOREIGN KEY (specialite_id) REFERENCES specialite(id)
 );
 
-DROP TABLE IF EXISTS "patientAdmin";
+DROP TABLE IF EXISTS "patient";
 
-CREATE TABLE patientAdmin (
+CREATE TABLE patient (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     nom VARCHAR(100),
     prenom VARCHAR(100),
@@ -40,6 +40,6 @@ CREATE TABLE rdv (
     date_heure TIMESTAMP,
     patient_id UUID,
     praticien_id UUID,
-    FOREIGN KEY (patient_id) REFERENCES patientAdmin(id),
+    FOREIGN KEY (patient_id) REFERENCES patient(id),
     FOREIGN KEY (praticien_id) REFERENCES praticien(id)
 );
