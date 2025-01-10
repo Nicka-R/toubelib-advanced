@@ -62,3 +62,21 @@ services:
       - toubeelib.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
+  ############################################
+  #    Quatrième service php pour api app rdv
+  ############################################
+  apprdv.toubeelib:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '6082:80'
+    volumes:
+      - ./app-rdv:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - toubeelib.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
