@@ -20,3 +20,4 @@ composer.phar
 composer.lock
 #env
 *.env
+.ini
