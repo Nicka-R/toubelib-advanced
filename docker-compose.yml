@@ -42,6 +42,36 @@ services:
       - toubeelib.net
     volumes:
       - ./toubeelib/app/sql/praticien:/docker-entrypoint-initdb.d
+    
+  patient.db:
+    image: 'postgres:latest'
+    env_file: ./patientdb.env
+    ports:
+      - '5434:5432'
+    networks:
+      - toubeelib.net
+    volumes:
+      - ./toubeelib/app/sql/patient:/docker-entrypoint-initdb.d
+
+  auth.db:
+    image: 'postgres:latest'
+    env_file: ./authdb.env
+    ports:
+      - '5435:5432'
+    networks:
+      - toubeelib.net
+    volumes:
+      - ./toubeelib/app/sql/auth:/docker-entrypoint-initdb.d
+
+  rdv.db:
+    image: 'postgres:latest'
+    env_file: ./rdvdb.env
+    ports:
+      - '5436:5432'
+    networks:
+      - toubeelib.net
+    volumes:
+      - ./toubeelib/app/sql/rdv:/docker-entrypoint-initdb.d
   #
   # service administration des bases sql
   #

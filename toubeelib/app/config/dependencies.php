@@ -29,6 +29,22 @@ return [
         return new \PDO($dsn, $user, $password, [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     },
 
+    'patient.pdo' => function (ContainerInterface $container) {
+        $config = parse_ini_file(__DIR__ . '/patient.db.ini');
+        $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
+        $user = $config['username'];
+        $password = $config['password'];
+        return new \PDO($dsn, $user, $password, [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
+    },
+
+    'rdv.pdo' => function (ContainerInterface $container) {
+        $config = parse_ini_file(__DIR__ . '/rdv.db.ini');
+        $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
+        $user = $config['username'];
+        $password = $config['password'];
+        return new \PDO($dsn, $user, $password, [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
+    },
+
     'auth.pdo' => function (ContainerInterface $container) {
         $config = parse_ini_file(__DIR__ . '/auth.db.ini');
         $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
@@ -62,8 +78,9 @@ return [
     }, 
 
     RDVRepositoryInterface::class => function(ContainerInterface $container) {
-        $pdo = $container->get('praticien.pdo');
-        return new PdoRDVRepository($pdo);
+        $pdo_rdv = $container->get('rdv.pdo');
+        $pdo_praticien = $container->get('praticien.pdo');
+        return new PdoRDVRepository($pdo_rdv, $pdo_praticien);
     },
 
     // Utilisation d'une instance ServicePraticien à chaque utilisation d'une ServicePraticienInterface
