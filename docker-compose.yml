@@ -32,6 +32,16 @@ services:
       - toubeelib.net
     volumes:
       - ./toubeelib/app/sql:/docker-entrypoint-initdb.d
+
+  praticien.db:
+    image: 'postgres:latest'
+    env_file: ./praticiendb.env
+    ports:
+      - '5433:5432'
+    networks:
+      - toubeelib.net
+    volumes:
+      - ./toubeelib/app/sql/praticien:/docker-entrypoint-initdb.d
   #
   # service administration des bases sql
   #
