@@ -6,7 +6,7 @@
 # Vendor
 /vendor/
 /app/vendor/
-/gateway2/vendor/
+/gateway/vendor/
 # Logs
 /app/logs/*
 !/app/logs/README.md
