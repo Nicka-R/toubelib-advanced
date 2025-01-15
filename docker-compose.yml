@@ -22,6 +22,45 @@ services:
       - toubeelib.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
+  ############################################
+  #    deuxieme service php pour gateway
+  ############################################
+  gateway.toubeelib:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '6081:80'
+    volumes:
+      - ./toubeelib/gateway:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - toubeelib.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
+
+
+  ############################################
+  #    service php pour app-praticiens
+  ############################################
+  api.praticiens:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '6090:80'
+    volumes:
+      - ./toubeelib/app:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - toubeelib.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
+
     # service toubeelib.db : base de données postgresql
   toubeelib.db:
     image: 'postgres:latest'
@@ -81,44 +120,4 @@ services:
       - '8080:8080'
     networks:
       - toubeelib.net
-
-
-  ############################################
-  #    deuxieme service php pour gateway
-  ############################################
-  gateway.toubeelib:
-    build:
-      context: build
-      dockerfile: 8.3-cli.Dockerfile
-    env_file: ./toubeelib.env
-    ports:
-      - '6081:80'
-    volumes:
-      - ./toubeelib/gateway:/var/php
-    working_dir: /var/php
-    networks:
-      - toubeelib.net
-    depends_on:
-      - toubeelib.db
-    command: php -S 0.0.0.0:80 -t /var/php/public
-
-
-  ############################################
-  #    service php pour app-praticiens
-  ############################################
-  api.praticiens:
-    build:
-      context: build
-      dockerfile: 8.3-cli.Dockerfile
-    env_file: ./toubeelib.env
-    ports:
-      - '6082:80'
-    volumes:
-      - ./app-praticiens/gateway:/var/php
-    working_dir: /var/php
-    networks:
-      - toubeelib.net
-    depends_on:
-      - toubeelib.db
-    command: php -S 0.0.0.0:80 -t /var/php/public
 

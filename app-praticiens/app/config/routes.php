@@ -9,16 +9,12 @@ use toubeelib\core\services\auth\AuthrzService;
 use toubeelib\application\actions\HomeAction;
 use toubeelib\application\actions\PraticienbyIDAction;
 use toubeelib\application\actions\ListPraticiensAction;
-use toubeelib\application\actions\AuthAction;
 use toubeelib\application\actions\RDVbyPracticienIDAction;
 
 return function(App $app): App {
 
     // Public routes
     $app->get('/', HomeAction::class)->setName('home');
-
-    // Authorization
-    // $app->post('/auth/signin', AuthAction::class)->setName('authSignin');
 
     // Practiciens
     $app->get('/praticiens', ListPraticiensAction::class)->setName('praticienById');

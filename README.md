@@ -25,6 +25,20 @@ docker exec -it projet-toubelib-gateway.toubeelib-1 composer install
 docker exec -it projet-toubelib-api.praticiens-1 composer install
 ```
 
+### Configuration
+
+1. Ajouter les domaines dans le fichier hosts
+
+```
+127.0.0.1 api.praticiens
+```
+
+2. Vérifier que les domaines sont bien configurés
+
+```bash
+curl http://api.praticiens:6090/
+```
+
 ### Collaborateurs
 
 Odin ALEXANDRE  

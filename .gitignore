@@ -1,3 +1,5 @@
 *.pdf
 *.env
 *.ini
+app-praticiens/app/config/auth.db.ini
+app-praticiens/app/config/praticien.db.ini

@@ -1,7 +1,0 @@
-driver=pgsql
-host=toubeelib.db
-username=
-password=
-database=toubeelib
-charset=utf8
-collation=utf8_unicode_ci
