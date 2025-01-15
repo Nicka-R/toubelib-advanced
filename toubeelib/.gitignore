@@ -20,3 +20,7 @@ composer.phar
 composer.lock
 #env
 *.env
+.ini
+
+gateway/config/*.ini
+gateway/logs/*.log

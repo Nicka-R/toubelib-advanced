@@ -6,6 +6,8 @@ use Monolog\Logger;
 use Slim\App;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
+use toubeelib\application\actions\GatewayPraticienAction;
+use toubeelib\application\actions\GenericPraticienAction;
 
 return [
 
@@ -16,14 +18,17 @@ return [
         $logger->info('Logger initialisé');
         return $logger;
     },    
-
-    ClientInterface::class => function () {
+    
+    'praticiensClient' => function () {
         return new Client([
-            'base_uri' => 'http://host.docker.internal:6080/',
+            'base_uri' => 'http://api.praticiens:80/',
             'timeout'  => 1000.0,
         ]);
     },
 
-];
+    GenericPraticienAction::class => function(ContainerInterface $container) {
+        $praticiensClient = $container->get('praticiensClient');
+        return new GenericPraticienAction($praticiensClient);
+    }
 
-   
+];
