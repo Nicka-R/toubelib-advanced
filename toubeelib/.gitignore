@@ -6,7 +6,7 @@
 # Vendor
 /vendor/
 /app/vendor/
-/gateway/vendor/
+/gateway2/vendor/
 # Logs
 /app/logs/*
 !/app/logs/README.md
@@ -21,3 +21,6 @@ composer.lock
 #env
 *.env
 .ini
+
+gateway/config/*.ini
+gateway/logs/*.log

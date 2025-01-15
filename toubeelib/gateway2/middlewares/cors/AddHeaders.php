@@ -1,5 +1,5 @@
 <?php
-namespace gateway\middlewares\cors;
+namespace app\middlewares\cors;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
