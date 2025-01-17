@@ -24,6 +24,12 @@ return [
         ]);
     },
 
+    'rdv.client' => function () {
+        return new Client([
+            'base_uri' => 'http://host.docker.internal:6081/',
+            'timeout'  => 1000.0,
+        ]);
+    },
 ];
 
    

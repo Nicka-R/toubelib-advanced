@@ -26,4 +26,8 @@ $app->addErrorMiddleware($c->get('displayErrorDetails'), false, false)
 $app = (require_once __DIR__ . '/routes.php')($app);
 $routeParser = $app->getRouteCollector()->getRouteParser();
 
+
+$app->add(new Cors());
+$app->add(new AddHeaders());
+
 return $app;
