@@ -4,16 +4,15 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubeelib\core\services\rdv\ServiceRDVInterface;
+use toubeelib\core\services\praticien\ServicePraticienInterface;
 use toubeelib\application\renderer\JsonRenderer;
-use toubeelib\core\services\rdv\ServiceRDVInvalidDataException;
 
 class RDVbyPracticienIDAction extends AbstractAction
 {
-    private ServiceRDVInterface $serviceRDV;
+    private ServicePraticienInterface $servicePraticien;
 
-    public function __construct(ServiceRDVInterface $serviceRDV) {
-        $this->serviceRDV = $serviceRDV;
+    public function __construct(ServicePraticienInterface $servicePraticien) {
+        $this->servicePraticien = $servicePraticien;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface {
@@ -25,8 +24,10 @@ class RDVbyPracticienIDAction extends AbstractAction
             return JsonRenderer::render($rs, 400, ['error' => 'Veuillez renseigner une date de début et un nombre de jours.']);
         }
 
+        $dateDebut = new \DateTime($data['dateDebut']);
+
         try {
-            $rdvDTOs = $this->serviceRDV->listerRendezVousPraticien($id, new \DateTimeImmutable($data['dateDebut']), $data['nbJours']);
+            $rdvDTOs = $this->servicePraticien->listerRendezVouspraticien($id, $dateDebut, $data['nbJours']);
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
                 $responseData[] = [
