@@ -18,8 +18,6 @@ services:
     working_dir: /var/php
     networks:
       - toubeelib.net
-    depends_on:
-      - toubeelib.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
   ############################################
@@ -37,8 +35,6 @@ services:
     working_dir: /var/php
     networks:
       - toubeelib.net
-    depends_on:
-      - toubeelib.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
 
@@ -53,24 +49,33 @@ services:
     ports:
       - '6090:80'
     volumes:
-      - ./toubeelib/app:/var/php
+      - ./app-praticiens/app:/var/php
     working_dir: /var/php
     networks:
       - toubeelib.net
     depends_on:
-      - toubeelib.db
+      - praticien.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
-    # service toubeelib.db : base de données postgresql
-  toubeelib.db:
-    image: 'postgres:latest'
-    env_file: ./toubeelibdb.env
+    
+  ############################################
+  #    service php pour app-rdv
+  ############################################
+  api.rdv:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
     ports:
-      - '5432:5432'
+      - '6100:80'
+    volumes:
+      - ./app-rdv/app:/var/php
+    working_dir: /var/php
     networks:
       - toubeelib.net
-    volumes:
-      - ./toubeelib/app/sql:/docker-entrypoint-initdb.d
+    depends_on:
+      - rdv.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
 
   praticien.db:
     image: 'postgres:latest'
@@ -101,16 +106,7 @@ services:
       - toubeelib.net
     volumes:
       - ./toubeelib/app/sql/auth:/docker-entrypoint-initdb.d
-
-  rdv.db:
-    image: 'postgres:latest'
-    env_file: ./rdvdb.env
-    ports:
-      - '5436:5432'
-    networks:
-      - toubeelib.net
-    volumes:
-      - ./toubeelib/app/sql/rdv:/docker-entrypoint-initdb.d
+      
   #
   # service administration des bases sql
   #
@@ -120,4 +116,3 @@ services:
       - '8080:8080'
     networks:
       - toubeelib.net
-
