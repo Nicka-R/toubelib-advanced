@@ -25,8 +25,4 @@ class SpecialiteDTO extends DTO
         return $s;
     }
 
-    public function getLabel(): string
-    {
-        return $this->label;
-    }
 }

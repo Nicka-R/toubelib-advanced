@@ -107,10 +107,7 @@ class ServicePraticien implements ServicePraticienInterface
         }
         $premier_rdv = (clone $dateDebut)->modify('08:00');
         $dernier_rdv = (clone $dateDebut)->modify('+'. $nbJours-1 . ' days')->modify('23:59');
-        // var_dump($premier_rdv);
-        // var_dump($dernier_rdv);die;
         $liste_rdv = $this->praticienRepository->getRendezVousPraticien($praticien_id, $premier_rdv, $dernier_rdv);
-        // var_dump($liste_rdv);die;
         return $liste_rdv;
     }
     
