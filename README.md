@@ -20,9 +20,11 @@ docker compose up -d
 4. Installer les dépendances
 
 ```bash
-docker exec -it projet-toubelib-api.toubeelib-1 composer install
-docker exec -it projet-toubelib-gateway.toubeelib-1 composer install
-docker exec -it projet-toubelib-api.praticiens-1 composer install
+docker compose exec api.toubeelib bash -c "composer install"
+docker compose exec gateway.toubeelib bash -c "composer install"
+docker compose exec api.praticiens bash -c "composer install"
+docker compose exec api.rdv bash -c "composer install"
+
 ```
 
 ### Configuration
@@ -32,7 +34,7 @@ docker exec -it projet-toubelib-api.praticiens-1 composer install
 ```
 127.0.0.1 api.praticiens
 127.0.0.1 api.toubeelib
-127.0.0.1 toubeelib.gateway
+127.0.0.1 gateway.toubeelib
 ```
 
 2. (optionnel) Vérifier que les domaines sont bien configurés

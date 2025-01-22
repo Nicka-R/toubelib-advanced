@@ -11,11 +11,10 @@ use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 
 class ServicePraticien implements ServicePraticienInterface
 {
-    private PraticienRepositoryInterface $praticienRepository;  
+    private PraticienRepositoryInterface $praticienRepository; 
 
 
-    public function __construct(PraticienRepositoryInterface $praticienRepository)
-    {
+    public function __construct(PraticienRepositoryInterface $praticienRepository) {
         $this->praticienRepository = $praticienRepository;
     }
 
@@ -94,6 +93,22 @@ class ServicePraticien implements ServicePraticienInterface
         return $praticiensDTO;
     }
     
-    
+
+
+    public function listerRendezVousPraticien(string $praticien_id, \DateTimeInterface $dateDebut, int $nbJours): array
+    {
+        try {
+            $praticien = $this->getPraticienById($praticien_id);
+        } catch (ServicePraticienInvalidDataException $e) {
+            throw new ServicePraticienInvalidDataException('Invalid Praticien ID');
+        }
+        if ($nbJours < 1) {
+            throw new ServicePraticienInvalidDataException('Invalid number of days');
+        }
+        $premier_rdv = (clone $dateDebut)->modify('08:00');
+        $dernier_rdv = (clone $dateDebut)->modify('+'. $nbJours-1 . ' days')->modify('23:59');
+        $liste_rdv = $this->praticienRepository->getRendezVousPraticien($praticien_id, $premier_rdv, $dernier_rdv);
+        return $liste_rdv;
+    }
     
 }

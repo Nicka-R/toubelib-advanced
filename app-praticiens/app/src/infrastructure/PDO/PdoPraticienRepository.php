@@ -3,6 +3,8 @@ namespace toubeelib\infrastructure\PDO;
 
 use toubeelib\core\domain\entities\praticien\Praticien;
 use toubeelib\core\domain\entities\praticien\Specialite;
+use toubeelib\core\domain\entities\rdv\RendezVous;
+use toubeelib\core\dto\RDVDTO;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\RepositoryEntityNotFoundException;
 use PDOException;
@@ -11,10 +13,12 @@ use PDO;
 class PdoPraticienRepository implements PraticienRepositoryInterface
 {
     private PDO $pdo;
+    private PDO $rdvPdo;
 
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, PDO $rdvPdo)
     {
         $this->pdo = $pdo;
+        $this->rdvPdo = $rdvPdo;
     }  
 
     public function getPraticienById(string $id): Praticien
@@ -72,9 +76,54 @@ class PdoPraticienRepository implements PraticienRepositoryInterface
         }
     }
 
-    //ToDO : methode a faire
+    public function getRendezVousPraticien(string $praticien_id, \DateTimeInterface $dateDebut, \DateTimeInterface $dateFin): array {
+        try {
+            $stmt = $this->rdvPdo->prepare('SELECT * FROM rdv WHERE praticien_id = :praticien_id AND date_heure BETWEEN :dateDebut AND :dateFin');
+            $stmt->execute([
+                'praticien_id' => $praticien_id,
+                'dateDebut' => $dateDebut->format('Y-m-d H:i:s'),
+                'dateFin' => $dateFin->format('Y-m-d H:i:s')
+            ]);
+            $rdvs = [];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $rdvs[] = new RDVDTO(new RendezVous($row['id'], $row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
+            }
+            return $rdvs;
+        } catch (PDOException $e) {
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
+    }
+
     public function getSpecialiteById(string $id): Specialite {
-        return new Specialite($id, 'label', 'description');
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM specialite WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$row) {
+                throw new PDOException();
+            }
+
+            return new Specialite($row['id'], $row['label'], $row['description']);
+        } catch (PDOException $e) {
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
+    }
+
+    public function getPraticienSpecialite(sring $di){
+        try {
+            //retourne l'id de spécialité d'un praticien à partir de l'id du praticien
+            $stmt = $this->pdo->prepare('SELECT specialite_id FROM praticien WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(!$row) {
+                throw new PDOException();
+            }
+
+            return $row['specialite_id'];
+        } catch (PDOException $e) {
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
     }
 
     //ToDO : methode a faire

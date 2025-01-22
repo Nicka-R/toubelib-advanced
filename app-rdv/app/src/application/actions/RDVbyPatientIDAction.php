@@ -4,30 +4,23 @@ namespace toubeelib\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use toubeelib\core\services\praticien\ServicePraticienInterface;
+use toubeelib\core\services\rdv\ServiceRDVInterface;
 use toubeelib\application\renderer\JsonRenderer;
+use toubeelib\core\services\rdv\ServiceRDVInvalidDataException;
 
-class RDVbyPracticienIDAction extends AbstractAction
+class RDVbyPatientIDAction extends AbstractAction
 {
-    private ServicePraticienInterface $servicePraticien;
+    private ServiceRDVInterface $serviceRDV;
 
-    public function __construct(ServicePraticienInterface $servicePraticien) {
-        $this->servicePraticien = $servicePraticien;
+    public function __construct(ServiceRDVInterface $serviceRDV) {
+        $this->serviceRDV = $serviceRDV;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface {
         $id = (string) $args['id'];
-        $data = json_decode($rq->getBody()->getContents(), true);
-
-        // if date debut et date fin ne sont pas renseignées
-        if (empty($data['dateDebut']) && empty($data['nbJours'])) {
-            return JsonRenderer::render($rs, 400, ['error' => 'Veuillez renseigner une date de début et un nombre de jours.']);
-        }
-
-        $dateDebut = new \DateTime($data['dateDebut']);
 
         try {
-            $rdvDTOs = $this->servicePraticien->listerRendezVouspraticien($id, $dateDebut, $data['nbJours']);
+            $rdvDTOs = $this->serviceRDV->getRDVbyPatientID($id);
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
                 $responseData[] = [

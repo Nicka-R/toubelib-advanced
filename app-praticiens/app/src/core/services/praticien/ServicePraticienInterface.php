@@ -14,6 +14,6 @@ interface ServicePraticienInterface
     public function getSpecialiteById(string $id): SpecialiteDTO;
     public function getSpecialitesByPraticienId(string $id): array;
     public function getAllPraticiens(): array;
-
+    public function listerRendezVousPraticien(string $praticien_id, \DateTimeInterface $dateDebut, int $nbJours): array;
 
 }

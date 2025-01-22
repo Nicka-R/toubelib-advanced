@@ -6,8 +6,7 @@ use Monolog\Logger;
 use Slim\App;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
-use toubeelib\application\actions\GatewayPraticienAction;
-use toubeelib\application\actions\GenericPraticienAction;
+use toubeelib\application\actions\GenericAction;
 
 return [
 
@@ -26,9 +25,17 @@ return [
         ]);
     },
 
-    GenericPraticienAction::class => function(ContainerInterface $container) {
+    'rdvsClient' => function () {
+        return new Client([
+            'base_uri' => 'http://api.rdv:80/',
+            'timeout'  => 1000.0,
+        ]);
+    },
+
+    GenericAction::class => function(ContainerInterface $container) {
         $praticiensClient = $container->get('praticiensClient');
-        return new GenericPraticienAction($praticiensClient);
+        $rdvsClient = $container->get('rdvsClient');
+        return new GenericAction($praticiensClient, $rdvsClient);
     }
 
 ];
