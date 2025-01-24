@@ -16,7 +16,14 @@ return [
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($logfile, Logger::DEBUG));
         $logger->info('Logger initialisé');
         return $logger;
-    },    
+    },  
+    
+    'toubeelibClient' => function () {
+        return new Client([
+            'base_uri' => 'http://api.toubeelib:80/',
+            'timeout'  => 1000.0,
+        ]);
+    },
     
     'praticiensClient' => function () {
         return new Client([
@@ -35,7 +42,8 @@ return [
     GenericAction::class => function(ContainerInterface $container) {
         $praticiensClient = $container->get('praticiensClient');
         $rdvsClient = $container->get('rdvsClient');
-        return new GenericAction($praticiensClient, $rdvsClient);
+        $toubeelibClient = $container->get('toubeelibClient');
+        return new GenericAction($praticiensClient, $rdvsClient, $toubeelibClient);
     }
 
 ];

@@ -10,10 +10,12 @@ class GenericAction extends AbstractAction
 {
     private ClientInterface $praticienClient;
     private ClientInterface $rdvClient;
+    private ClientInterface $toubeelibClient;
 
-    public function __construct(ClientInterface $praticienClient, ClientInterface $rdvClient) {
+    public function __construct(ClientInterface $praticienClient, ClientInterface $rdvClient, ClientInterface $toubeelibClient) {
         $this->praticienClient = $praticienClient;
         $this->rdvClient = $rdvClient;
+        $this->toubeelibClient = $toubeelibClient;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface {

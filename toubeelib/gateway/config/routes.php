@@ -4,7 +4,6 @@ use Slim\App;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use toubeelib\application\actions\HomeAction;
-use toubeelib\application\actions\GenericPraticienAction;
 use toubeelib\application\actions\GenericAction;
 use app\middlewares\cors\Cors;
 
@@ -13,9 +12,7 @@ return function(App $app): App {
 
     // Public routes
     $app->get('/', HomeAction::class)->setName('home');
-
-    // Praticiens
-    // $app->get('/praticiens[/{id}[/{rdvs}]]', GenericPraticienAction::class)->setName('praticiens');
+    
     $app->map(['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], '/{routes:.+}', GenericAction::class)->setName('genericRoute');
 
                                                             
