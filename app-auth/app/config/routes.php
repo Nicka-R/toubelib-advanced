@@ -3,19 +3,15 @@
 use Slim\App;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use gateway\application\actions\HomeAction;
-use gateway\application\actions\GenericAction;
-use app\middlewares\cors\Cors;
+use toubeelib\application\actions\HomeAction;
 
 return function(App $app): App {
-    $app->add(Cors::class);
 
     // Public routes
     $app->get('/', HomeAction::class)->setName('home');
 
-    
-    $app->map(['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], '/{routes:.+}', GenericAction::class)->setName('genericRoute');
-
+    // Authorization
+    // $app->post('/auth/signin', AuthAction::class)->setName('authSignin');
                                                             
     $app->options('/{routes:.+}', function (Request $request, Response $response) {
         return $response;

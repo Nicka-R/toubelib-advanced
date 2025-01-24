@@ -76,6 +76,25 @@ services:
       - rdv.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
+  ############################################
+  #    service php pour app-auth
+  ############################################
+  api.auth:
+    build:
+      context: build
+      dockerfile: 8.3-cli.Dockerfile
+    env_file: ./toubeelib.env
+    ports:
+      - '6110:80'
+    volumes:
+      - ./app-auth/app:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
+    depends_on:
+      - auth.db
+    command: php -S 0.0.0.0:80 -t /var/php/public
+
   praticien.db:
     image: 'postgres:latest'
     env_file: ./praticiendb.env

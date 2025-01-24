@@ -1,13 +1,9 @@
 <?php
-
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
-use Slim\App;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Client;
-use toubeelib\application\actions\GenericAction;
-
+use gateway\application\actions\GenericAction;
 return [
 
     LoggerInterface::class => function () {
@@ -32,10 +28,18 @@ return [
         ]);
     },
 
+    'authClient' => function () {
+        return new Client([
+            'base_uri' => 'http://api.auth:80/',
+            'timeout'  => 1000.0,
+        ]);
+    },
+
     GenericAction::class => function(ContainerInterface $container) {
         $praticiensClient = $container->get('praticiensClient');
         $rdvsClient = $container->get('rdvsClient');
-        return new GenericAction($praticiensClient, $rdvsClient);
-    }
+        $authClient = $container->get('authClient');
+        return new GenericAction($praticiensClient, $rdvsClient, $authClient);
+    },
 
 ];
