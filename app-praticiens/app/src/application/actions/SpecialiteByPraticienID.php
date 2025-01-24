@@ -22,6 +22,7 @@ class SpecialiteByPraticienID extends AbstractAction {
         }
         $responseData = [
             'self' => "/specialites/{$specialite[0]->ID}",
+            'id' => $specialite[0]->ID,
             'label' => $specialite[0]->label,
             'description' => $specialite[0]->description
         ];
