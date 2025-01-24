@@ -114,6 +114,7 @@ class ServiceRDV implements ServiceRDVInterface
     {
         try {
             $specialite = $this->servicePraticien->getSpecialiteById($id);
+            // var_dump($specialite);die;
             return $specialite;
         } catch (RepositoryEntityNotFoundException $e) {
             throw new ServiceRDVInvalidDataException('Invalid Specialite ID');
@@ -142,12 +143,10 @@ class ServiceRDV implements ServiceRDVInterface
      */
     public function checkPraticienSpecialites(string $praticienId, string $specialite): bool
     {
-        $spes = $this->servicePraticien->getSpecialitesByPraticienId($praticienId);
-        $specialitesPraticienIds = [];
-        foreach ($spes as $spe) {
-            $specialitesPraticienIds[] = $spe->ID;
-        }
-        if($specialite === $specialitesPraticienIds[0]){
+        $spe = $this->servicePraticien->getSpecialitesByPraticienId($praticienId);
+        // var_dump($spes);die;
+        $specialitePraticienId = $spe->ID;
+        if($specialite === $specialitePraticienId){
             return true;
         }
         //compare les spécialités du praticien avec celles du rendez-vous

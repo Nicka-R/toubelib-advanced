@@ -2,7 +2,7 @@
 namespace toubeelib\infrastructure\adapters;
 
 use toubeelib\core\services\praticien\ServicePraticienInterface;
-use toubeelib\core\services\praticien\PraticienDTO;
+use toubeelib\core\dto\SpecialiteDTO;
 
 class PraticienApiAdapter implements ServicePraticienInterface {
     public function getPraticienById(string $id): array {
@@ -12,11 +12,11 @@ class PraticienApiAdapter implements ServicePraticienInterface {
         return $praticienData;
     }
 
-    public function getSpecialiteByID(string $id): string {
+    public function getSpecialiteById(string $id): SpecialiteDTO {
         $url = "http://api.praticiens:80/specialites/{$id}";
         $response = file_get_contents($url);
         $specialiteData = json_decode($response, true);
-        return $specialiteData['nom'];
+        return new SpecialiteDTO($id, $specialiteData['label'], $specialiteData['description']);
     }
 
     public function getPraticienRdvs(string $id): string{
@@ -26,10 +26,10 @@ class PraticienApiAdapter implements ServicePraticienInterface {
         return $rdvData;
     }
 
-    public function getSpecialitesByPraticienId(string $id): array {
+    public function getSpecialitesByPraticienId(string $id): SpecialiteDTO {
         $url = "http://api.praticiens:80/praticiens/{$id}/specialites";
         $response = file_get_contents($url);
         $specialitesData = json_decode($response, true);
-        return $specialitesData;
+        return new SpecialiteDTO($specialitesData['id'], $specialitesData['label'], $specialitesData['description']);
     }
 }
