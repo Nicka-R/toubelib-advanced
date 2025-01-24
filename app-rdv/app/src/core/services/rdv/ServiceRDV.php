@@ -144,7 +144,6 @@ class ServiceRDV implements ServiceRDVInterface
     public function checkPraticienSpecialites(string $praticienId, string $specialite): bool
     {
         $spe = $this->servicePraticien->getSpecialitesByPraticienId($praticienId);
-        // var_dump($spes);die;
         $specialitePraticienId = $spe->ID;
         if($specialite === $specialitePraticienId){
             return true;
