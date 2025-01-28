@@ -1,4 +1,5 @@
 <?php
+
 namespace toubeelib\core\services\auth;
 
 use toubeelib\core\dto\AuthDTO;
@@ -8,41 +9,69 @@ use toubeelib\core\services\auth\AuthenticationException;
 use toubeelib\infrastructure\PDO\PdoAuthException;
 use toubeelib\core\domain\entities\user\User;
 
+
 class ServiceAuth implements ServiceAuthInterface
 {
     private AuthRepositoryInterface $authRepository;
+    private JWTManager $jwtManager;
 
-    public function __construct(AuthRepositoryInterface $authRepository)
+    public function __construct(AuthRepositoryInterface $authRepository, JWTManager $jwtManager)
     {
         $this->authRepository = $authRepository;
+        $this->jwtManager = $jwtManager;
     }
 
     /**
      * Méthode pour enregistrer un utilisateur
      */
-    public function register(CredentialsDTO $credentials, int $role): void {
+    public function register(CredentialsDTO $credentials, int $role): void
+    {
         try {
             $user = new User($credentials->email, $credentials->password, $role);
-            $this->authRepository->register($user, $role);            
+            $this->authRepository->register($user, $role);
         } catch (PdoAuthException $e) {
             throw new AuthenticationException($e->getMessage());
         }
     }
 
-    // public function authenticate(CredentialsDTO $authDTO): AuthDTO
-    // {
-    //     $user = $this->authRepository->findByEmail($authDTO->email);
-    //     // il faut utiliser le password en clair et non le hash
-    //     if (!$user || !password_verify($authDTO->password, $user->getHashedPassword())) {
-    //         throw new AuthenticationException('Invalid credentials');
-    //     }
+    /**
+     * Méthode pour authentifier un utilisateur
+     */
+    public function login(CredentialsDTO $credentials): AuthDTO
+    {
+        try {
+            $user = $this->authRepository->login($credentials->email);
 
-    //     return new AuthDTO($user->getId(), $user->getEmail(), $user->getHashedPassword(), $user->getRole());
-    // }
+            if (!$user || !password_verify($credentials->password, $user->hashed_password)) {
+                throw new AuthenticationException('Credentials invalid');
+            }
+
+            $accessToken = $this->jwtManager->createAccessToken([
+                'sub' => $user->id,
+                'role' => $user->role,
+                'email' => $user->email,
+                'exp' => time() + 3600, // Access token valable 1 heure
+            ]);
+
+            $refreshToken = $this->jwtManager->createRefreshToken([
+                'sub' => $user->id,
+                'role' => $user->role,
+                'email' => $user->email,
+                'exp' => time() + 86400, // Refresh token valable 24 heures
+            ]);
+
+            $authDto = new AuthDTO($user->id, $user->email, $user->hashed_password, $user->role);
+            $authDto->setAccessToken($accessToken);
+            $authDto->setRefreshToken($refreshToken);
+            return $authDto;
+        } catch (PdoAuthException $e) {
+            throw new AuthenticationException($e->getMessage());
+        }
+    }
 
 
 
-     
+
 
 
     // public function getSignedInUser(Token $token): AuthDTO {

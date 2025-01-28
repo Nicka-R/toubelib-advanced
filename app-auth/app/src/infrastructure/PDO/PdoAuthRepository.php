@@ -28,7 +28,7 @@ class PdoAuthRepository implements AuthRepositoryInterface
         try {
             $stmt = $this->pdo->prepare('INSERT INTO users (id, email, password, role) VALUES (:id, :email, :password, :role)');
             $stmt->execute([
-                'id'=> $user->getID(),
+                'id' => $user->getID(),
                 'email' => $user->getEmail(),
                 'password' => password_hash($user->getPassword(), PASSWORD_DEFAULT),
                 'role' => $user->getRole()
@@ -38,18 +38,25 @@ class PdoAuthRepository implements AuthRepositoryInterface
         }
     }
 
+    /**
+     * Authentifie un utilisateur par son email
+     * @param string $email
+     * @return AuthDTO|null
+     */
 
-
-
-    public function findByEmail(string $email): ?AuthDTO
+    public function login(string $email): ?AuthDTO
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
-        $stmt->execute(['email' => $email]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new AuthDTO($row['id'], $row['email'], $row['password'], $row['role']);
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
+            $stmt->execute(['email' => $email]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return new AuthDTO($row['id'], $row['email'], $row['password'], $row['role']);
+            }
+            return null;
+        } catch (\Exception $e) {
+            throw new PdoAuthException('Erreur lors de la connexion de l\'utilisateur : ' . $e->getMessage());
         }
-        return null;
     }
 
 

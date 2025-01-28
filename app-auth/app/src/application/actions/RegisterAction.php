@@ -50,8 +50,12 @@ class RegisterAction extends AbstractAction
             // }
             $credentials = new CredentialsDTO($data['email'], $data['password']);
             $this->authService->register($credentials, $data['role']);
+
+            $responseData = [
+                'success' => true,
+                'message' => 'Utilisateur enregistré'
+            ];
             
-            $responseData = ['message' => 'UTilisateur créé avec succès'];
             $rs->getBody()->write(json_encode($responseData));
             return $rs->withHeader('Content-Type', 'application/json')->withStatus(201);
 

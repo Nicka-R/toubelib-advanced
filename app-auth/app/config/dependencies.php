@@ -5,7 +5,7 @@ use Psr\Container\ContainerInterface;
 use toubeelib\core\services\auth\ServiceAuthInterface;
 use toubeelib\core\repositoryInterfaces\AuthRepositoryInterface;
 use toubeelib\infrastructure\PDO\PdoAuthRepository;
-
+use toubeelib\core\services\auth\JWTManager;
 return [
     
     'auth.pdo' => function (ContainerInterface $container) {
@@ -23,9 +23,9 @@ return [
 
     ServiceAuthInterface::class => function (ContainerInterface $container) {
         $authRepository = $container->get(AuthRepositoryInterface::class);
-        return new ServiceAuth($authRepository);
+        $jwtManager = $container->get(JWTManager::class);
+        return new ServiceAuth($authRepository, $jwtManager);
     },
-
 
     CheckJwtToken::class => function (ContainerInterface $container) {
         $config = include __DIR__ . '/config.php';

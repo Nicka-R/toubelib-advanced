@@ -19,30 +19,6 @@ class AuthDTO extends DTO {
         $this->refreshToken = $refreshToken;
     }
 
-    public function getId(): string {
-        return $this->id;
-    }
-
-    public function getEmail(): string {
-        return $this->email;
-    }
-
-    public function getRole(): int {
-        return $this->role;
-    }
-
-    public function getHashedPassword(): string {
-        return $this->hashed_password;
-    }
-
-    public function getAccessToken(): string {
-        return $this->accessToken;
-    }
-
-    public function getRefreshToken(): string {
-        return $this->refreshToken;
-    }
-
     public function setAccessToken(string $accessToken): void {
         $this->accessToken = $accessToken;
     }
