@@ -1,0 +1,19 @@
+meta {
+  name: registerGateway
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://gateway.toubeelib:6081/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test3@test.com",
+    "password": "root",
+    "role": "1"
+  }
+}

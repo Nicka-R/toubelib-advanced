@@ -1,0 +1,18 @@
+meta {
+  name: login
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://api.auth:6110/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test@test.com",
+    "password": "root"
+  }
+}
