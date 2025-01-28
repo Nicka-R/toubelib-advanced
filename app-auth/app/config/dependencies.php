@@ -9,7 +9,9 @@ use toubeelib\core\services\auth\JWTManager;
 return [
     
     'auth.pdo' => function (ContainerInterface $container) {
-        $config = parse_ini_file(__DIR__ . '/auth.db.ini');
+        // $config = parse_ini_file(__DIR__ . '/auth.db.ini');
+        $configPath = $container->get('auth.db.config'); // Récupère le chemin défini dans settings.php
+        $config = parse_ini_file($configPath);
         $dsn = "{$config['driver']}:host={$config['host']};dbname={$config['database']}";
         $user = $config['username'];
         $password = $config['password'];
