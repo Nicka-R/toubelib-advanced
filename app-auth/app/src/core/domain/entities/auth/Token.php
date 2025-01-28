@@ -1,5 +1,5 @@
 <?php
-namespace app\providers\auth;
+namespace toubeelib\core\domain\entities\auth;
 class Token {
     public string $value;
     public string $token;

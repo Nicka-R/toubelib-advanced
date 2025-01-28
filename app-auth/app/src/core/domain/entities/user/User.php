@@ -2,6 +2,7 @@
 namespace toubeelib\core\domain\entities\user;
 
 use toubeelib\core\domain\entities\Entity;
+use Ramsey\Uuid\Guid\Guid;
 
 class User extends Entity{
     const PATIENT = 0;
@@ -22,6 +23,7 @@ class User extends Entity{
         $this->email = $email;
         $this->password = $password;
         $this->role = $role;
+        $this->setID(Guid::uuid4()->toString());
     }
 
     public function getEmail(){

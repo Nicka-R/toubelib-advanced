@@ -1,11 +1,10 @@
 <?php
-use toubeelib\core\repositoryInterfaces\UserRepositoryInterface;
-use toubeelib\core\services\auth\AuthService;
-use toubeelib\core\services\auth\AuthServiceInterface;
-use app\providers\auth\JwtAuthProvider;
-use toubeelib\infrastructure\PDO\PdoUserRepository;
+use toubeelib\core\services\auth\ServiceAuth;
 use app\middlewares\auth\CheckJwtToken;
 use Psr\Container\ContainerInterface;
+use toubeelib\core\services\auth\ServiceAuthInterface;
+use toubeelib\core\repositoryInterfaces\AuthRepositoryInterface;
+use toubeelib\infrastructure\PDO\PdoAuthRepository;
 
 return [
     
@@ -17,25 +16,16 @@ return [
         return new \PDO($dsn, $user, $password, [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
     },
 
-    UserRepositoryInterface::class => function (ContainerInterface $container) {
+    AuthRepositoryInterface::class => function (ContainerInterface $container) {
         $pdo = $container->get('auth.pdo');
-        return new PdoUserRepository($pdo);
+        return new PdoAuthRepository($pdo);
     },
 
-    AuthServiceInterface::class => function (ContainerInterface $container) {
-        $userRepository = $container->get(UserRepositoryInterface::class);
-        return new AuthService($userRepository);
+    ServiceAuthInterface::class => function (ContainerInterface $container) {
+        $authRepository = $container->get(AuthRepositoryInterface::class);
+        return new ServiceAuth($authRepository);
     },
 
-    AuthService::class => function (ContainerInterface $container) {
-        $userRepository = $container->get(UserRepositoryInterface::class);
-        return new AuthService($userRepository);
-    },
-
-    JwtAuthProvider::class => function (ContainerInterface $container) {
-        $authService = $container->get(AuthService::class);
-        return new JwtAuthProvider($authService, $container->get(UserRepositoryInterface::class));
-    },
 
     CheckJwtToken::class => function (ContainerInterface $container) {
         $config = include __DIR__ . '/config.php';
