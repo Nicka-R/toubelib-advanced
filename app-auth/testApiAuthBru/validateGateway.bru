@@ -1,0 +1,21 @@
+meta {
+  name: validateGateway
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://gateway.toubeelib:6081/tokens/validate
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6ImRlZmF1bHQta2V5LWlkIn0.eyJzdWIiOiIwYjg0MjI4Ni1hYzU3LTRiYzYtODA2MC0yY2E5ODVkMTQwMGIiLCJyb2xlIjoxLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzgxMDk3MjN9.RpfAnuy7uVQilbLNoZc-2P_uMDRYWD4SoRlFsYE6VdLAFZ1L85_2CsXfDabandh53g58wb8T4PaWNnXQPiL7UQ
+}
+
+body:json {
+  {
+    "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6ImRlZmF1bHQta2V5LWlkIn0.eyJzdWIiOiIwYjg0MjI4Ni1hYzU3LTRiYzYtODA2MC0yY2E5ODVkMTQwMGIiLCJyb2xlIjoxLCJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJleHAiOjE3MzgxODkzMDF9.3LdKD7GLgRcdHFkRb4humyvPUnOlc3TQWITiCr1U6TezXKSIeMP7hAaCVCk78TzbgbozyBQllrDaXpAT-qksxA" 
+  }
+}

@@ -29,12 +29,6 @@ return [
         return new ServiceAuth($authRepository, $jwtManager);
     },
 
-    CheckJwtToken::class => function (ContainerInterface $container) {
-        $config = include __DIR__ . '/config.php';
-        $jwtSecret = $config['jwt']['secret'];
-        return new CheckJwtToken($jwtSecret);
-    },
-
 ];
 
    
