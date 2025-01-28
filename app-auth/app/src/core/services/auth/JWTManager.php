@@ -20,7 +20,8 @@ class JWTManager {
      * @return string
      */
     public function createAccessToken(array $payload): string {
-        return JWT::encode($payload, $this->secret, 'HS512');
+        $header = ['alg' => 'HS512', 'typ' => 'JWT', 'kid' => 'default-key-id']; 
+        return JWT::encode($payload, $this->secret, 'HS512', null, $header);
     }
 
     /**
@@ -29,7 +30,8 @@ class JWTManager {
      * @return string
      */
     public function createRefreshToken(array $payload): string {
-        return JWT::encode($payload, $this->secret, 'HS512');
+        $header = ['alg' => 'HS512', 'typ' => 'JWT', 'kid' => 'default-key-id']; 
+        return JWT::encode($payload, $this->secret, 'HS512', null, $header);
     }
 
     /**
@@ -38,6 +40,16 @@ class JWTManager {
      * @return array
      */
     public function decodeToken(string $token): array {
-        return (array) JWT::decode($token, $this->secret);
-    }
+        $decoded = JWT::decode($token, new \Firebase\JWT\Key($this->secret, 'HS512'));
+        
+        // Décoder l'en-tête du token pour vérifier `kid`
+        $header = json_decode(base64_decode(explode('.', $token)[0]), true);
+    
+        if (!isset($header['kid']) || $header['kid'] !== 'default-key-id') {
+            throw new \Exception('Invalid or missing "kid" in token header');
+        }
+    
+        return (array) $decoded;
+    }    
+    
 }

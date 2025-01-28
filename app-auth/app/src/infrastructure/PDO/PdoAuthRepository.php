@@ -59,16 +59,23 @@ class PdoAuthRepository implements AuthRepositoryInterface
         }
     }
 
-
-
-    public function findById(string $id): ?AuthDTO
+    /**
+     * Récupère un utilisateur par son id
+     * @param string $id
+     * @return AuthDTO|null
+     */
+    public function getUserById(string $id): ?AuthDTO
     {
-        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = :id');
-        $stmt->execute(['id' => $id]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            return new AuthDTO($row['id'], $row['email'], $row['password'], $row['role']);
+        try {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row) {
+                return new AuthDTO($row['id'], $row['email'], $row['password'], $row['role']);
+            }
+            return null;
+        } catch (\Exception $e) {
+            throw new PdoAuthException('Erreur lors de la récupération de l\'utilisateur : ' . $e->getMessage());
         }
-        return null;
     }
 }

@@ -69,24 +69,39 @@ class ServiceAuth implements ServiceAuthInterface
         }
     }
 
+    /**
+     * Méthode pour rafraichir un token
+     */
+    public function refresh(string $refreshToken): AuthDTO
+    {
+        try {
+            $decodedToken = $this->jwtManager->decodeToken($refreshToken);
 
+            $userId = $decodedToken['sub'];
+            $authDto = $this->authRepository->getUserById($userId);
 
+            // Générer un nouveau Access Token
+            $newAccessToken = $this->jwtManager->createAccessToken([
+                'sub' => $authDto->id,
+                'role' => $authDto->role,
+                'email' => $authDto->email,
+                'exp' => time() + 3600,
+            ]);
 
+            // //Regénerer également un nouveau refresh token si on veut plus de sécurité
+            // $newRefreshToken = $this->jwtManager->createRefreshToken([
+            //     'sub' => $authDto->id,
+            //     'role' => $authDto->role,
+            //     'email' => $authDto->email,
+            //     'exp' => time() + 86400,
+            // ]);            
 
-
-    // public function getSignedInUser(Token $token): AuthDTO {
-    //     $decoded = $this->decodeToken($token->getToken());
-    //     $user = $this->authRepository->findByEmail($decoded['email']);
-    //     if ($user) {
-    //         return new AuthDTO(
-    //             $user->getId(),
-    //             $user->getEmail(),
-    //             $user->getHashedPassword(),
-    //             $user->getRole(),
-    //             $this->createAccessToken(['email' => $user->getEmail()]), 
-    //             $token->getToken()
-    //         );
-    //     }
-    //     throw new \Exception("User not found");
-    // }
+            $newAuthDto = new AuthDTO($authDto->id, $authDto->email,$authDto->hashed_password,$authDto->role);
+            $newAuthDto->setAccessToken($newAccessToken);
+            // $newAuthDto->setRefreshToken($newRefreshToken);
+            return $newAuthDto;
+        } catch (PdoAuthException $e) {
+            throw new AuthenticationException($e->getMessage());
+        }
+    }
 }
