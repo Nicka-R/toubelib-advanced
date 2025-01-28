@@ -5,7 +5,7 @@ use Psr\Container\ContainerInterface;
 use toubeelib\core\services\auth\ServiceAuthInterface;
 use toubeelib\core\repositoryInterfaces\AuthRepositoryInterface;
 use toubeelib\infrastructure\PDO\PdoAuthRepository;
-use toubeelib\core\services\auth\JWTManager;
+use app\providers\JWTManager;
 return [
     
     'auth.pdo' => function (ContainerInterface $container) {

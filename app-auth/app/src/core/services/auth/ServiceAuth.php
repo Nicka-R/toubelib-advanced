@@ -8,6 +8,7 @@ use toubeelib\core\repositoryInterfaces\AuthRepositoryInterface;
 use toubeelib\core\services\auth\AuthenticationException;
 use toubeelib\infrastructure\PDO\PdoAuthException;
 use toubeelib\core\domain\entities\user\User;
+use app\providers\JWTManager;
 
 
 class ServiceAuth implements ServiceAuthInterface

@@ -1,5 +1,5 @@
 <?php
-namespace toubeelib\core\services\auth;
+namespace app\providers;
 
 use Firebase\JWT\JWT;
 
@@ -7,7 +7,7 @@ class JWTManager {
     private string $secret;
 
     public function __construct() {
-        $config = include(__DIR__ . '/../../../../config/config.php');
+        $config = include(__DIR__ . '/../config/config.php');
         if (!isset($config['jwt']['secret']) || empty($config['jwt']['secret'])) {
             throw new \InvalidArgumentException('JWT secret key is not set in the configuration file.');
         }
