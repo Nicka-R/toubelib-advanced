@@ -108,7 +108,7 @@ class PdoRDVRepository implements RDVRepositoryInterface
             $stmt->execute(['patient_id' => $patient_id]);
             $rdvs = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rdvs[] = new RDVDTO(new RendezVous($row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
+                $rdvs[] = new RDVDTO(new RendezVous($row['id'], $row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
             }
             return $rdvs;
         } catch (PDOException $e) {
@@ -126,7 +126,7 @@ class PdoRDVRepository implements RDVRepositoryInterface
             ]);
             $rdvs = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rdvs[] = new RDVDTO(new RendezVous($row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
+                $rdvs[] = new RDVDTO(new RendezVous($row['id'], $row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
             }
             return $rdvs;
         } catch (PDOException $e) {

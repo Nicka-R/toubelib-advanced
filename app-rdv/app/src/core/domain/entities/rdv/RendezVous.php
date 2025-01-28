@@ -28,8 +28,9 @@ class RendezVous extends Entity
 
     // protected ?Specialite $specialite = null;
 
-    public function __construct(string $praticien, string $patient, string $specialiteID, \DateTimeImmutable $date)
+    public function __construct(string $id, string $praticien, string $patient, string $specialiteID, \DateTimeImmutable $date)
     {
+        $this->id = $id;
         $this->praticienID = $praticien;
         $this->patientID = $patient;
         $this->specialiteID = $specialiteID;
@@ -72,9 +73,6 @@ class RendezVous extends Entity
 
     public function getId(): ?string
     {
-        if (empty($this->id)) {
-            return "";
-        }
         return $this->id;
     }
 

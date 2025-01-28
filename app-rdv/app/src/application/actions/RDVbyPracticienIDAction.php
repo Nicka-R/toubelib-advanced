@@ -34,6 +34,7 @@ class RDVbyPracticienIDAction extends AbstractAction
                     'praticienId' => $rdvDTO->getPraticienID(),
                     'patientId' => $rdvDTO->getPatientID(),
                     'creneau' => $rdvDTO->getDate(),
+                    'status' => $rdvDTO->getStatus(),
                 ];
             }
             return JsonRenderer::render($rs, 200, $responseData);
