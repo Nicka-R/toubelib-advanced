@@ -27,7 +27,10 @@ class PraticienbyIDAction extends AbstractAction
                 'prenom' => $praticienDto->prenom,
                 'adresse' => $praticienDto->adresse,
                 'tel' => $praticienDto->tel,
-                'specialite' => $praticienDto->specialite_label
+                'specialite' => [
+                    'href' => "/specialites/{$praticienDto->specialiteID}",
+                    'id' => $praticienDto->specialiteID,
+                ]
             ];
             return JsonRenderer::render($rs, 200, $responseData);
 
