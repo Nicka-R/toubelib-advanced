@@ -86,10 +86,31 @@ class PdoPraticienRepository implements PraticienRepositoryInterface
             ]);
             $rdvs = [];
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $rdvs[] = new RDVDTO(new RendezVous($row['id'], $row['praticien_id'], $row['patient_id'], "fake_speciality_id", new \DateTimeImmutable($row['date_heure'])));
+                $rdvs[] = new RDVDTO(new RendezVous($row['id'], $row['praticien_id'], $row['patient_id'], 'fake_spiciality_id', new \DateTimeImmutable($row['date_heure'])));
             }
             return $rdvs;
         } catch (PDOException $e) {
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
+    }
+
+    public function getAllSpecialites(): array{
+        try{
+            $stmt = $this->pdo->prepare('SELECT * FROM specialite');
+            $stmt->execute();
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if(!$rows){
+                throw new PDOException();
+            }
+
+            $specialites = [];
+            foreach($rows as $row){
+                $specialite = new Specialite($row['id'], $row['label'], $row['description']);
+                $specialites[] = $specialite;
+            }
+            return $specialites;
+        }catch(PDOException $e){
             throw new RepositoryEntityNotFoundException($e->getMessage());
         }
     }
@@ -126,9 +147,50 @@ class PdoPraticienRepository implements PraticienRepositoryInterface
         }
     }
 
-    //ToDO : methode a faire
+    public function getPraticiensBySpecialite(string $id){
+        try{
+            $stmt = $this->pdo->prepare('
+                SELECT * from praticien WHERE specialite_id = :id
+            ');
+
+            $stmt->execute(['id' => $id]);
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $praticiens = [];
+            foreach ($rows as $row) {
+                //on creer un objet praticien à partir des données récupérées
+                $praticien = new Praticien($row['nom'], $row['prenom'], $row['adresse'], $row['telephone']);
+                $praticien->setID($row['id']);
+                $praticiens[] = $praticien;
+            }
+
+            return $praticiens;
+        }catch(PDOException $e){
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
+
+    }
+
     public function save(Praticien $praticien): string {
-        return '1';
+        try {
+            $stmt = $this->pdo->prepare('
+                INSERT INTO praticien (nom, prenom, adresse, telephone, specialite_id)
+                VALUES (:nom, :prenom, :adresse, :telephone, :specialite_id)
+            ');
+
+            $stmt->execute([
+                'nom' => $praticien->nom,
+                'prenom' => $praticien->prenom,
+                'adresse' => $praticien->adresse,
+                'telephone' => $praticien->telephone,
+                'specialite_id' => $praticien->getSpecialite()->ID
+            ]);
+
+            return $this->pdo->lastInsertId();
+        } catch (PDOException $e) {
+            throw new RepositoryEntityNotFoundException($e->getMessage());
+        }
+        
     }
 
 }
