@@ -30,11 +30,18 @@ class RDVbyPracticienIDAction extends AbstractAction
             $rdvDTOs = $this->servicePraticien->listerRendezVouspraticien($id, $dateDebut, $data['nbJours']);
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
+                // var_dump($rdvDTO);die;
                 $responseData[] = [
                     'self' => "/rdvs/{$rdvDTO->getId()}",
-                    'praticienId' => $rdvDTO->getPraticienID(),
-                    'patientId' => $rdvDTO->getPatientID(),
+                    'praticien' => [
+                        'href' => "/praticiens/{$rdvDTO->getPraticienID()}",
+                        'id' => $rdvDTO->getPraticienID(),
+                    ],
+                    'patient' => [
+                        'id' => $rdvDTO->getPatientID(),
+                    ],
                     'creneau' => $rdvDTO->getDate(),
+                    'status' => $rdvDTO->getStatus(),
                 ];
             }
             return JsonRenderer::render($rs, 200, $responseData);
