@@ -16,10 +16,11 @@ return function(App $app): App {
     $app->get('/', HomeAction::class)->setName('home');
 
     // Rendez-vous
-    $app->post('/rdvs/new', CreerRDVAction::class)->setName('newRDV');
+    $app->post('/rdvs', CreerRDVAction::class)->setName('newRDV');
     $app->get('/rdvs/{id}', RDVbyIDAction::class)->setName('rdvById');
-    $app->patch('/rdvs/{id}/modifier', ModifierRDVAction::class)->setName('modifierRDV');
-    $app->get('/rdvs/patient/{id}', RDVbyPatientIDAction::class)->setName('rdvByPatientId');
+    $app->patch('/rdvs/{id}', ModifierRDVAction::class)->setName('modifierRDV');
+    $app->get('/patients/{id}/rdvs', RDVbyPatientIDAction::class)->setName('rdvByPatientId');
+    $app->get('/praticiens/{id}/rdvs', RDVbyPracticienIDAction::class)->setName('rdvByPracticienId');
 
                                                             
     $app->options('/{routes:.+}', function (Request $request, Response $response) {
