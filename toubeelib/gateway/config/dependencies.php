@@ -4,6 +4,7 @@ use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use GuzzleHttp\Client;
 use gateway\application\actions\GenericAction;
+use app\middlewares\auth\AuthMiddleware;
 return [
 
     LoggerInterface::class => function () {
@@ -40,6 +41,10 @@ return [
         $rdvsClient = $container->get('rdvsClient');
         $authClient = $container->get('authClient');
         return new GenericAction($praticiensClient, $rdvsClient, $authClient);
+    },
+
+    AuthMiddleware::class => function(ContainerInterface $container) {
+        return new AuthMiddleware($container->get('authClient'));
     },
 
 ];

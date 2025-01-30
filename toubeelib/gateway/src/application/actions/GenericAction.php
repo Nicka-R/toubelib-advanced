@@ -28,8 +28,8 @@ class GenericAction extends AbstractAction
             $client = $this->praticienClient;
         } elseif (strpos($path, '/rdvs') === 0) {
             $client = $this->rdvClient;
-        } elseif (strpos($path, '/auth') === 0 || strpos($path, '/tokens') === 0) {
-            $client = $this->authClient;
+        } elseif (strpos($path, '/auth') === 0) {
+            // $client = $this->authClient; // Ajouter les routes /auth uniquement pour le frontend
         } else {
             throw new HttpNotFoundException($rq, 'Route not found');
         }
