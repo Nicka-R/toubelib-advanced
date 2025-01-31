@@ -22,7 +22,8 @@ class RDVbyIDAction extends AbstractAction
         try {
             $rdvDTO = $this->serviceRDV->getRendezVousById($id);
             $responseData = [
-                'self' => ['href' =>"/rdvs/{$rdvDTO->getId()}"],
+                'self' => ['href' =>"/rdvs/{$rdvDTO->getId()}",
+                           'id' => $rdvDTO->getId()],
                     'praticien' => [
                         'href' => "/praticiens/{$rdvDTO->getPraticienID()}",
                         'id' => $rdvDTO->getPraticienID(),

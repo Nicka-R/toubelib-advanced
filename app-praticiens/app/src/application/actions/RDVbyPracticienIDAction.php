@@ -30,9 +30,11 @@ class RDVbyPracticienIDAction extends AbstractAction
             $rdvDTOs = $this->servicePraticien->listerRendezVouspraticien($id, $dateDebut, $data['nbJours']);
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
-                // var_dump($rdvDTO);die;
                 $responseData[] = [
-                    'self' => "/rdvs/{$rdvDTO->getId()}",
+                    'self' => [
+                        'href' => "/rdvs/{$rdvDTO->getId()}",
+                        'id' => $rdvDTO->getId(),
+                    ],
                     'praticien' => [
                         'href' => "/praticiens/{$rdvDTO->getPraticienID()}",
                         'id' => $rdvDTO->getPraticienID(),

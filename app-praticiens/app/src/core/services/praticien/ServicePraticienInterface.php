@@ -11,8 +11,10 @@ interface ServicePraticienInterface
 
     public function createPraticien(InputPraticienDTO $p): PraticienDTO;
     public function getPraticienById(string $id): PraticienDTO;
+    public function getAllSpecialites(): array;
     public function getSpecialiteById(string $id): SpecialiteDTO;
     public function getSpecialitesByPraticienId(string $id): array;
+    public function getPraticiensBySpecialite(string $id): array;
     public function getAllPraticiens(): array;
     public function listerRendezVousPraticien(string $praticien_id, \DateTimeInterface $dateDebut, int $nbJours): array;
 

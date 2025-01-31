@@ -22,7 +22,10 @@ class PraticienbyIDAction extends AbstractAction
         try {
             $praticienDto = $this->servicePraticien->getPraticienById($id);
             $responseData = [
-                'self' => "/praticiens/{$praticienDto->ID}",
+                'self' => [
+                    "href" => "/praticiens/{$praticienDto->ID}",
+                    "id" => $praticienDto->ID
+                ],
                 'nom' => $praticienDto->nom,
                 'prenom' => $praticienDto->prenom,
                 'adresse' => $praticienDto->adresse,
@@ -30,6 +33,9 @@ class PraticienbyIDAction extends AbstractAction
                 'specialite' => [
                     'href' => "/specialites/{$praticienDto->specialiteID}",
                     'id' => $praticienDto->specialiteID,
+                ],
+                'praticiens' => [
+                    'href' => "/praticiens",
                 ]
             ];
             return JsonRenderer::render($rs, 200, $responseData);

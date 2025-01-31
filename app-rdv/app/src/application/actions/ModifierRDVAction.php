@@ -39,7 +39,8 @@ class ModifierRDVAction extends AbstractAction
             }
 
             $responseData = [
-                'self' => ['href' => '/rdvs/' . $id],
+                'self' => ['href' => '/rdvs/' . $id,
+                           'id' => $id],
                 'patient' => ['id' => $rdv->getPatientID()] ,
             ];
 

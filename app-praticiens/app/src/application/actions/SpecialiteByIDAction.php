@@ -30,12 +30,14 @@ class SpecialiteByIdAction extends AbstractAction {
             return JsonRenderer::render($response, 404, ['error' => 'Specialite not found']);
         }
         $responseData = [
-            'self' => "/specialites/{$specialite->ID}",
-            'id' => $specialite->ID,
+            'self' => [
+                "href" => "/specialites/{$specialite->ID}",
+                "id" => $specialite->ID
+            ],
             'label' => $specialite->label,
             'description' => $specialite->description,
             'praticiens' => $praticienLinks,
-            'all' => [
+            'specialites' => [
                 'href' => '/specialites',
             ],
 

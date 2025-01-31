@@ -23,8 +23,10 @@ class ListSpecialitesAction extends AbstractAction {
         $responseData = [];
         foreach($specialites as $specialite) {
             $responseData[] = [
-                'self' => "/specialites/{$specialite->ID}",
-                'id' => $specialite->ID,
+                'self' =>[
+                    "href" => "/specialites/{$specialite->ID}",
+                    "id" => $specialite->ID
+                ],
                 'label' => $specialite->label,
                 'description' => $specialite->description
             ];

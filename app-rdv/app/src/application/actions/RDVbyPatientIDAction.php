@@ -24,7 +24,8 @@ class RDVbyPatientIDAction extends AbstractAction
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
                 $responseData[] = [
-                    'self' => ['href' => "/rdvs/{$rdvDTO->getId()}"],
+                    'self' => ['href' => "/rdvs/{$rdvDTO->getId()}",
+                               'id' => $rdvDTO->getId()],
                     'praticien' => [
                         'href' => "/praticiens/{$rdvDTO->getPraticienID()}",
                         'id' => $rdvDTO->getPraticienID(),
