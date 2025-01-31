@@ -61,6 +61,16 @@ class ServicePraticien implements ServicePraticienInterface
         }
     }
 
+    public function getAllSpecialites(): array
+    {
+        $specialites = $this->praticienRepository->getAllSpecialites();
+        $specialitesDTO = [];
+        foreach ($specialites as $specialite) {
+            $specialitesDTO[] = $specialite->toDTO();
+        }
+        return $specialitesDTO;
+    }
+
     /**
      * fonction qui permet de récupérer les spécialités d'un praticien
      * @param string $id l'ID du praticien
@@ -77,6 +87,17 @@ class ServicePraticien implements ServicePraticienInterface
         } catch (RepositoryEntityNotFoundException $e) {
             throw new ServicePraticienInvalidDataException('Invalid Praticien ID');
         }
+    }
+
+    public function getPraticiensBySpecialite(string $id): array
+    {
+        $praticiens = $this->praticienRepository->getPraticiensBySpecialite($id);
+        $praticiensDTO = [];
+        foreach ($praticiens as $praticien) {
+            $praticiensDTO[] = new PraticienDTO($praticien);
+        }
+        // var_dump($praticiensDTO);die;
+        return $praticiensDTO;
     }
 
     /**
@@ -108,6 +129,7 @@ class ServicePraticien implements ServicePraticienInterface
         $premier_rdv = (clone $dateDebut)->modify('08:00');
         $dernier_rdv = (clone $dateDebut)->modify('+'. $nbJours-1 . ' days')->modify('23:59');
         $liste_rdv = $this->praticienRepository->getRendezVousPraticien($praticien_id, $premier_rdv, $dernier_rdv);
+        // var_dump($liste_rdv);die;
         return $liste_rdv;
     }
     

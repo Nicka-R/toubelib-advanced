@@ -72,9 +72,6 @@ class RendezVous extends Entity
 
     public function getId(): ?string
     {
-        if (empty($this->id)) {
-            return "";
-        }
         return $this->id;
     }
 

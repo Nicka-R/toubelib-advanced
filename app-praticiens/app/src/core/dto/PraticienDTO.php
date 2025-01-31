@@ -10,6 +10,7 @@ class PraticienDTO extends DTO
     protected string $prenom;
     protected string $adresse;
     protected string $tel;
+    protected string $specialiteID;
     protected string $specialite_label;
 
     public function __construct(Praticien $p)
@@ -20,7 +21,8 @@ class PraticienDTO extends DTO
         $this->adresse = $p->adresse;
         $this->tel = $p->tel;
         // $this->specialite_label = $p->specialite ? $p->specialite->label : 'Pas de Specialite';
-        $this->specialite_label = $p->getSpecialite() ? $p->getSpecialite()->getLabel() : 'Pas de Specialite';
+        $this->specialiteID = $p->getSpecialite() ? $p->getSpecialite()->ID : 'Pas de Specialite';
+        $this->specialite_label = $p->getSpecialite() ? $p->getSpecialite()->label : 'Pas de Specialite';
     }
 
     public function toEntity(): Praticien

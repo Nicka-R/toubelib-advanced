@@ -76,6 +76,33 @@ services:
       - rdv.db
     command: php -S 0.0.0.0:80 -t /var/php/public
 
+  ############################################
+  #    service de communication avec RabbitMQ
+  ############################################
+  rabbitmq:
+    image: rabbitmq:4-management
+    env_file: ./toubeelib.env
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    networks:
+      - toubeelib.net
+    volumes:
+      - ./rabbitmq_dir:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=JFeja57
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
+  app.consume:
+    image: 'php:8.3-cli'
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
   praticien.db:
     image: 'postgres:latest'
     env_file: ./praticiendb.env

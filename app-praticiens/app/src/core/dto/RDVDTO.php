@@ -9,15 +9,15 @@ use toubeelib\core\dto\SpecialiteDTO;
 
 class RDVDTO
 {
-    private string $id;
-    private string $praticienID;
-    private string $patientID;
-    private \DateTimeImmutable $date;
-    private bool $type;
-    private bool $newPatient;
-    private string $status;
-    private string $specialiteID;
-    private string $specialiteLabel;
+    protected string $id;
+    protected string $praticienID;
+    protected string $patientID;
+    protected \DateTimeImmutable $date;
+    protected bool $type;
+    protected bool $newPatient;
+    protected string $status;
+    protected string $specialiteID;
+    protected string $specialiteLabel;
 
     public function __construct(RendezVous $rendezVous)
     {

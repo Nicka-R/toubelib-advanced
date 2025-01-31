@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use toubeelib\core\services\praticien\ServicePraticienInterface;
 use toubeelib\application\renderer\JsonRenderer;
 
-class SpecialiteByPraticienID extends AbstractAction {
+class ListSpecialitesAction extends AbstractAction {
     private ServicePraticienInterface $servicePraticien;
 
     public function __construct(ServicePraticienInterface $servicePraticien) {
@@ -14,21 +14,23 @@ class SpecialiteByPraticienID extends AbstractAction {
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface {
-        $id = $args['id'];
-        $specialite = $this->servicePraticien->getSpecialitesByPraticienId($id);
+        $specialites = $this->servicePraticien->getAllSpecialites();
 
-        if ($specialite === null) {
+        if ($specialites === null) {
             return JsonRenderer::render($response, 404, ['error' => 'Specialite not found']);
         }
-        $responseData = [
-            'self' => [
-                "href" => "/specialites/{$specialite[0]->ID}",
-                "id" => $specialite[0]->ID
-            ],
-            'label' => $specialite[0]->label,
-            'description' => $specialite[0]->description
-        ];
-        
+
+        $responseData = [];
+        foreach($specialites as $specialite) {
+            $responseData[] = [
+                'self' =>[
+                    "href" => "/specialites/{$specialite->ID}",
+                    "id" => $specialite->ID
+                ],
+                'label' => $specialite->label,
+                'description' => $specialite->description
+            ];
+        }
         return JsonRenderer::render($response, 200, $responseData);
     }
 }

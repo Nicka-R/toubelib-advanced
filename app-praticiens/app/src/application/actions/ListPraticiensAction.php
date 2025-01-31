@@ -22,12 +22,20 @@ class ListPraticiensAction extends AbstractAction{
             $responseData = [];
             foreach ($praticiensDto as $praticienDto) {
                 $responseData[] = [
-                    'self' => "/praticiens/{$praticienDto->ID}",
+                    'self' => [
+                        'href' => "/praticiens/{$praticienDto->ID}",
+                        'id' => $praticienDto->ID,
+                    ],
                     'nom' => $praticienDto->nom,
                     'prenom' => $praticienDto->prenom,
                     'adresse' => $praticienDto->adresse,
                     'tel' => $praticienDto->tel,
-                    'specialite' => $praticienDto->specialite_label
+                    'specialite' => [
+                        'href' => "/specialites/{$praticienDto->specialiteID}",
+                        'id' => $praticienDto->specialiteID,
+                        'label' => $praticienDto->specialite_label,
+                    ]
+                    
                 ];
             }
             return JsonRenderer::render($rs, 200, $responseData);

@@ -65,6 +65,16 @@ curl http://api.toubeelib:6080/
 curl http://gateway.toubeelib:6081/
 ```
 
+### Fonctionnalités
+
+- [x] Séparation de l'application en microservices (Gateway, Auth, Praticiens, RDV)
+- [x] Mise en place d'une action générique dans le Gateway
+- [x] Communication entre les microservices avec Guzzle
+- [x] Séparation des bases de données (Auth, Praticiens et Spécialités, RDV)
+- [x] Authentification des utilisateurs (JWT)
+- [x] Mise en place d'un système de communication pour notifier les utilisateurs et les praticiens en fonction des actions effectuées sur les rendez-vous
+- [x] Amélioration de l'API REST (Nom des routes et HATEOAS)
+
 ### Collaborateurs
 
 Odin ALEXANDRE  

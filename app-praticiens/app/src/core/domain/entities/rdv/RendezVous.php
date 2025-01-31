@@ -30,6 +30,7 @@ class RendezVous extends Entity
 
     public function __construct(string $id, string $praticien, string $patient, string $specialiteID, \DateTimeImmutable $date)
     {
+        $this->id = $id;
         $this->praticienID = $praticien;
         $this->patientID = $patient;
         $this->specialiteID = $specialiteID;

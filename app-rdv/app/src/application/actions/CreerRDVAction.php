@@ -35,8 +35,8 @@ class CreerRDVAction extends AbstractAction
 
             $rdv = $this->serviceRDV->creerRendezVous($inputRDV);
             $responseData = [
-                'self' => '/rdvs/' . $rdv->getId(),
-                'rdvId' => $rdv->getId(),
+                'self' =>['href' => '/rdvs/' . $rdv->getId() ],
+                'rdv' => ['id' => $rdv->getId() ],
             ];
 
             return JsonRenderer::render($rs, 200, $responseData);
