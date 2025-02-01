@@ -9,7 +9,9 @@ use Monolog\Logger;
 use toubeelib\core\services\praticien\ServicePraticienInterface;
 use toubeelib\infrastructure\PDO\PdoRDVRepository;
 use toubeelib\infrastructure\adapters\PraticienApiAdapter;
-use Slim\App;
+use app\middlewares\authrz\AuthrzRdvMiddleware;
+use toubeelib\core\services\authorization\AuthrzRdvServiceInterface;
+use toubeelib\core\services\authorization\AuthrzRdvService;
 
 return [
     'rdv.pdo' => function (ContainerInterface $container) {
@@ -45,6 +47,18 @@ return [
     ServicePraticienInterface::class => function (ContainerInterface $container) {
         return new PraticienApiAdapter();
     },
+
+    AuthrzRdvMiddleware::class => function (ContainerInterface $container) {
+        $authInterface = $container->get(AuthrzRdvServiceInterface::class);
+        return new AuthrzRdvMiddleware($authInterface);
+    },
+
+    AuthrzRdvServiceInterface::class => function(ContainerInterface $container) {
+        $rdvRepository = $container->get(RDVRepositoryInterface::class);
+        return new AuthrzRdvService($rdvRepository);
+    },
+
+    
 
 ];
 

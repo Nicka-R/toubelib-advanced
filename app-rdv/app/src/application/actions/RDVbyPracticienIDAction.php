@@ -30,10 +30,10 @@ class RDVbyPracticienIDAction extends AbstractAction
             $responseData = [];
             foreach ($rdvDTOs as $rdvDTO) {
                 $responseData[] = [
-                    'self' => "/rdvs/{$rdvDTO->getId()}",
-                    'praticienId' => $rdvDTO->getPraticienID(),
-                    'patientId' => $rdvDTO->getPatientID(),
-                    'creneau' => $rdvDTO->getDate(),
+                    'self' => '/rdvs/' . $rdvDTO->id,
+                    'praticienId' => $rdvDTO->praticienID,
+                    'patientId' => $rdvDTO->patientID,
+                    'creneau' => $rdvDTO->date,
                 ];
             }
             return JsonRenderer::render($rs, 200, $responseData);
