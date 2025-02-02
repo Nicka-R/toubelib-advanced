@@ -74,6 +74,8 @@ curl http://gateway.toubeelib:6081/
 - [x] Authentification des utilisateurs (JWT)
 - [x] Mise en place d'un système de communication pour notifier les utilisateurs et les praticiens en fonction des actions effectuées sur les rendez-vous
 - [x] Amélioration de l'API REST (Nom des routes et HATEOAS)
+- [x] Mise en place d'un système de notification par email via RabbitMQ
+
 
 ### Collaborateurs
 
