@@ -7,7 +7,7 @@ use toubeelib\core\domain\entities\praticien\Praticien;
 use toubeelib\core\dto\PraticienDTO;
 use toubeelib\core\dto\SpecialiteDTO; 
 
-class RDVDTO
+class RDVDTO extends DTO
 {
     protected string $id;
     protected string $praticienID;
@@ -32,25 +32,7 @@ class RDVDTO
         $this->specialiteLabel = $rendezVous->getSpecialite() ? $rendezVous->getSpecialite()->getLabel() : 'Pas de Specialite';
     }
 
-    /*
-     * Getters et setters
-     */
-    public function getId(): string{
-        return $this->id;
-    }
-
-    public function getPraticienID(): string 
-    { 
-        return $this->praticienID; 
-    }
-    public function getPatientID(): string
-    { 
-        return $this->patientID;
-    }
-    public function getDate(): \DateTimeImmutable
-    {
-        return $this->date;
-    }
+    
 
     public function getSpecialiteID(): string 
     { 
@@ -89,7 +71,7 @@ class RDVDTO
 
     public function toEntity(): RendezVous
     {
-        $rdv = new RendezVous($this->praticienID, $this->patientID, $this->specialiteLabel, $this->date);
+        $rdv = new RendezVous($this->id,$this->praticienID, $this->patientID, $this->specialiteLabel, $this->date);
         $rdv->setType($this->type);
         $rdv->setNewPatient($this->newPatient);
         $rdv->setStatus($this->status);

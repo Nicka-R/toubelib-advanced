@@ -131,7 +131,7 @@ class PdoPraticienRepository implements PraticienRepositoryInterface
         }
     }
 
-    public function getPraticienSpecialite(sring $di){
+    public function getPraticienSpecialite(string $id){
         try {
             //retourne l'id de spécialité d'un praticien à partir de l'id du praticien
             $stmt = $this->pdo->prepare('SELECT specialite_id FROM praticien WHERE id = :id');

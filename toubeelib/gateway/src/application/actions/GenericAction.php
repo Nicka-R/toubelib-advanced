@@ -1,5 +1,5 @@
 <?php
-namespace toubeelib\application\actions;
+namespace gateway\application\actions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,12 +10,12 @@ class GenericAction extends AbstractAction
 {
     private ClientInterface $praticienClient;
     private ClientInterface $rdvClient;
-    private ClientInterface $toubeelibClient;
+    private ClientInterface $authClient;
 
-    public function __construct(ClientInterface $praticienClient, ClientInterface $rdvClient, ClientInterface $toubeelibClient) {
+    public function __construct(ClientInterface $praticienClient, ClientInterface $rdvClient, ClientInterface $authClient) {
         $this->praticienClient = $praticienClient;
         $this->rdvClient = $rdvClient;
-        $this->toubeelibClient = $toubeelibClient;
+        $this->authClient = $authClient;
     }
 
     public function __invoke(ServerRequestInterface $rq, ResponseInterface $rs, array $args): ResponseInterface {
@@ -28,6 +28,8 @@ class GenericAction extends AbstractAction
             $client = $this->praticienClient;
         } elseif (strpos($path, '/rdvs') === 0) {
             $client = $this->rdvClient;
+        } elseif (strpos($path, '/auth') === 0) {
+            // $client = $this->authClient; // Ajouter les routes /auth uniquement pour le frontend
         } else {
             throw new HttpNotFoundException($rq, 'Route not found');
         }

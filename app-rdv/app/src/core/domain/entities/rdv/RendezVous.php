@@ -15,7 +15,6 @@ class RendezVous extends Entity
     private const RDV_PAYE = 3;
     private const RDV_TRANSMIS = 4;
 
-    protected string $id;
     protected string $praticienID;
     protected string $patientID;
     protected \DateTimeImmutable $date; 
@@ -29,7 +28,7 @@ class RendezVous extends Entity
     // protected ?Specialite $specialite = null;
 
     public function __construct(string $praticien, string $patient, string $specialiteID, \DateTimeImmutable $date)
-    {
+    {   
         $this->praticienID = $praticien;
         $this->patientID = $patient;
         $this->specialiteID = $specialiteID;

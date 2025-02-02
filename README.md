@@ -26,6 +26,10 @@ Et dans /app-praticiens/config
 - `praticien.db.ini`
 - `rdv.db.ini`
 
+Et dans /app-auth/config
+
+- `auth.db.ini`
+
 Assurez vous que les fichiers .env et .ini sont bien configurés, notamment pour les user et password des bases de données.
 
 5. Lancer les containers docker
@@ -41,6 +45,7 @@ docker compose exec api.toubeelib bash -c "composer install"
 docker compose exec gateway.toubeelib bash -c "composer install"
 docker compose exec api.praticiens bash -c "composer install"
 docker compose exec api.rdv bash -c "composer install"
+docker compose exec api.auth bash -c "composer install"
 
 ```
 
@@ -48,12 +53,15 @@ docker compose exec api.rdv bash -c "composer install"
 
 1. Ajouter les domaines dans le fichier hosts (sur windows, le fichier se trouve dans C:\Windows\System32\drivers\etc\hosts)
 
+2. Sous Linux, le fichier est /etc/hosts
+
 ```
 # toubeelib
 127.0.0.1 api.praticiens
 127.0.0.1 api.rdv
 127.0.0.1 api.toubeelib
 127.0.0.1 gateway.toubeelib
+127.0.0.1 api.auth
 ```
 
 2. (optionnel) Vérifier que les domaines sont bien configurés
@@ -63,6 +71,7 @@ curl http://api.praticiens:6090/
 curl http://api.rdv:6100/
 curl http://api.toubeelib:6080/
 curl http://gateway.toubeelib:6081/
+curl http://api.auth:6110/
 ```
 
 ### Fonctionnalités

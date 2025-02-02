@@ -3,8 +3,9 @@
 use Slim\App;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use toubeelib\application\actions\HomeAction;
-use toubeelib\application\actions\GenericAction;
+use gateway\application\actions\HomeAction;
+use gateway\application\actions\GenericAction;
+use app\middlewares\auth\AuthMiddleware;
 use app\middlewares\cors\Cors;
 
 return function(App $app): App {
@@ -12,6 +13,12 @@ return function(App $app): App {
 
     // Public routes
     $app->get('/', HomeAction::class)->setName('home');
+
+    $app->group('/rdvs', function($group) {
+        $group->map(['GET', 'POST', 'PATCH', 'DELETE'], '[/{params:.*}]', GenericAction::class);
+    })->add(AuthMiddleware::class);
+
+    
     
     $app->map(['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], '/{routes:.+}', GenericAction::class)->setName('genericRoute');
 

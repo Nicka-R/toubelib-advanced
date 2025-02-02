@@ -1,0 +1,19 @@
+meta {
+  name: register
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://api.auth:6110/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "test@test.com",
+    "password": "root",
+    "role": "1"
+  }
+}
