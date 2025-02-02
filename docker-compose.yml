@@ -99,9 +99,15 @@ services:
       retries: 3
   app.consume:
     image: 'php:8.3-cli'
+    volumes:
+      - ./mail-service/app:/var/php
+    working_dir: /var/php
+    networks:
+      - toubeelib.net
     depends_on:
       rabbitmq:
         condition: service_healthy
+    command: php consumer.php
 
   praticien.db:
     image: 'postgres:latest'
@@ -149,6 +155,16 @@ services:
     image: adminer
     ports:
       - '8080:8080'
+    networks:
+      - toubeelib.net
+
+  mailcatcher:
+    build:
+      context: .
+      dockerfile: Dockerfile.mailcatcher
+    ports:
+      - "1025:1025"  # SMTP port
+      - "1080:1080"  # Web interface
     networks:
       - toubeelib.net
 
