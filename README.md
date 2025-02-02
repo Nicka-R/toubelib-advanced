@@ -7,13 +7,32 @@ Projet de gestion des rendez-vous médicaux pour les patients et les médecins.
 ### Installation
 
 1. Cloner le projet
-2. Créer toubeelib.env sur la base des fichiers .env.example
-3. Créer les .env à la racine du projet des pour chaque base de données sur la base du fichier database.env.example (praticiendb.env, authdb.env et patientdb.env, rdvdb.env)
-4. Créer les .ini pour chaque service sur la base du fichier database.db.ini.example (praticien.db.ini, auth.db.ini et patient.db.ini, rdv.db.ini)
-   Assurez vous que les fichiers .env et .ini sont bien configurés, notamment pour les user et password des bases de données.
-Par exemple pour le service app-auth, il faut placer le fichier "auth.db.ini" dans le repertoire app-auth/app/config
-5. Lancer les containers docker
+2. A la racine du projet créer toubeelib.env sur la base du fichier toubeelib.env.example
+3. Toujours à la racine du projet créer les .env des pour chaque bases de données sur la base du fichier <databasedb>.env.example.  
+   Vous devriez avoir
 
+- `praticiendb.env`,
+- `authdb.env`,
+- `patientdb.env`,
+- `rdvdb.env`
+
+4. Créer les .ini pour chaque service sur la base du fichier <database>.db.ini.example (praticien.db.ini, auth.db.ini et patient.db.ini, rdv.db.ini)  
+   Dans /app-rdv/config vous devriez avoir
+
+- `rdv.db.ini`
+
+Et dans /app-praticiens/config
+
+- `praticien.db.ini`
+- `rdv.db.ini`
+
+Et dans /app-auth/config
+
+- `auth.db.ini`
+
+Assurez vous que les fichiers .env et .ini sont bien configurés, notamment pour les user et password des bases de données.
+
+5. Lancer les containers docker
 
 ```bash
 docker compose up -d
@@ -37,7 +56,9 @@ docker compose exec api.auth bash -c "composer install"
 2. Sous Linux, le fichier est /etc/hosts
 
 ```
+# toubeelib
 127.0.0.1 api.praticiens
+127.0.0.1 api.rdv
 127.0.0.1 api.toubeelib
 127.0.0.1 gateway.toubeelib
 127.0.0.1 api.auth
@@ -47,6 +68,7 @@ docker compose exec api.auth bash -c "composer install"
 
 ```bash
 curl http://api.praticiens:6090/
+curl http://api.rdv:6100/
 curl http://api.toubeelib:6080/
 curl http://gateway.toubeelib:6081/
 curl http://api.auth:6110/

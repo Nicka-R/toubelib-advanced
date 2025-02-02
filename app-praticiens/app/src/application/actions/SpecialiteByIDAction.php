@@ -22,6 +22,7 @@ class SpecialiteByIdAction extends AbstractAction {
         }
         $responseData = [
             'self' => "/specialites/{$specialite->ID}",
+            'id' => $specialite->ID,
             'label' => $specialite->label,
             'description' => $specialite->description
         ];

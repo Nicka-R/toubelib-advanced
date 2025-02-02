@@ -1,22 +1,12 @@
 <?php
 
-use toubeelib\core\services\rdv\ServiceRDVInterface;
-use toubeelib\core\services\rdv\ServiceRDV;
-use toubeelib\core\repositoryInterfaces\RDVRepositoryInterface;
 use toubeelib\core\repositoryInterfaces\PraticienRepositoryInterface;
-use toubeelib\core\repositoryInterfaces\UserRepositoryInterface;
 use toubeelib\infrastructure\PDO\PdoPraticienRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger;
 use toubeelib\core\services\praticien\ServicePraticien;
 use toubeelib\core\services\praticien\ServicePraticienInterface;
-use toubeelib\core\services\auth\AuthService;
-use toubeelib\core\services\auth\AuthServiceInterface;
-use app\providers\auth\JwtAuthProvider;
-use toubeelib\infrastructure\PDO\PdoUserRepository;
-use toubeelib\infrastructure\PDO\PdoRDVRepository;
-use app\middlewares\auth\CheckJwtToken;
 use Slim\App;
 
 return [

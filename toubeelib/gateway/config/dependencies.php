@@ -13,7 +13,14 @@ return [
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($logfile, Logger::DEBUG));
         $logger->info('Logger initialisé');
         return $logger;
-    },    
+    },  
+    
+    'toubeelibClient' => function () {
+        return new Client([
+            'base_uri' => 'http://api.toubeelib:80/',
+            'timeout'  => 1000.0,
+        ]);
+    },
     
     'praticiensClient' => function () {
         return new Client([

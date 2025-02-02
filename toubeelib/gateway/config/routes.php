@@ -19,6 +19,7 @@ return function(App $app): App {
     })->add(AuthMiddleware::class);
 
     
+    
     $app->map(['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], '/{routes:.+}', GenericAction::class)->setName('genericRoute');
 
                                                             
